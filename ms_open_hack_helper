@@ -1,0 +1,36 @@
+https://docs.docker.com/network/bridge/
+>docker network create ms-open-hack-net
+
+
+https://hub.docker.com/_/microsoft-mssql-server
+https://docs.microsoft.com/en-us/sql/linux/quickstart-install-connect-docker?view=sql-server-ver15&pivots=cs1-bash
+>docker run -e "ACCEPT_EULA=Y" -e "SA_PASSWORD=MyStrongPassw0rd123" \
+   -p 1433:1433 --name sql1 -h sql1 \
+   --network ms-open-hack-net -d \
+   mcr.microsoft.com/mssql/server:2019-latest
+   
+======sa -> MyStrongPassw0rd123========
+
+After setting up a SQL Server container running locally, add sample data to the database using the following command:
+
+```dockerfile
+docker run --network ms-open-hack-net -e SQLFQDN=sql1 -e SQLUSER=sa -e SQLPASS=MyStrongPassw0rd123 -e SQLDB=mydrivingDB openhack/data-load:v1
+```
+
+poi
+>docker build --no-cache --build-arg IMAGE_VERSION="1.0" --build-arg IMAGE_CREATE_DATE="`date -u +"%Y-%m-%dT%H:%M:%SZ"`" --build-arg IMAGE_SOURCE_REVISION="`git rev-parse HEAD`" -f Dockerfile -t "tripinsights/poi:1.0" .
+
+
+Then configure the POI application to connect to this SQL Server so you can test that the application works. You can find the curl commands to test the applications endpoints in the POI applications README.
+IMPORTANT: Set the ASPNETCORE_ENVIRONMENT environment variable in POI to Local. This configures the application to skip the use of SSL encryption, allowing connection to the local sql server.
+>docker run --network ms-open-hack-net --rm -dit \
+  -p 8080:80 --name poi -h poi \
+  -e SQL_USER="sa" -e SQL_PASSWORD="MyStrongPassw0rd123" \
+  -e SQL_SERVER="sql1" -e ASPNETCORE_ENVIRONMENT="local" \
+  tripinsights/poi:1.0
+  
+
+
+
+
+
