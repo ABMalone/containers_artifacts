@@ -28,6 +28,18 @@ IMPORTANT: Set the ASPNETCORE_ENVIRONMENT environment variable in POI to Local. 
   -e SQL_USER=sa -e SQL_PASSWORD=MyStrongPassw0rd123 \
   -e SQL_SERVER=sql1 -e ASPNETCORE_ENVIRONMENT=Local \
   tripinsights/poi:1.0
+
+Trips API
+
+Build
+>docker build --no-cache --build-arg IMAGE_VERSION="1.0" --build-arg IMAGE_CREATE_DATE="`date -u +"%Y-%m-%dT%H:%M:%SZ"`" --build-arg IMAGE_SOURCE_REVISION="`git rev-parse HEAD`" -f Dockerfile -t "tripinsights/trips:1.0" .
+
+Run
+>docker run --network ms-open-hack-net --rm -dit \
+  -p 8081:80 --name trips -h trips \
+  -e SQL_USER=sa -e SQL_PASSWORD=MyStrongPassw0rd123 \
+  -e SQL_SERVER=sql1 -e ASPNETCORE_ENVIRONMENT=Local \
+  tripinsights/trips:1.0
   
 
 
