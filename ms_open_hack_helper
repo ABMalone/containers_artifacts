@@ -25,8 +25,8 @@ Then configure the POI application to connect to this SQL Server so you can test
 IMPORTANT: Set the ASPNETCORE_ENVIRONMENT environment variable in POI to Local. This configures the application to skip the use of SSL encryption, allowing connection to the local sql server.
 >docker run --network ms-open-hack-net --rm -dit \
   -p 8080:80 --name poi -h poi \
-  -e SQL_USER="sa" -e SQL_PASSWORD="MyStrongPassw0rd123" \
-  -e SQL_SERVER="sql1" -e ASPNETCORE_ENVIRONMENT="local" \
+  -e SQL_USER=sa -e SQL_PASSWORD=MyStrongPassw0rd123 \
+  -e SQL_SERVER=sql1 -e ASPNETCORE_ENVIRONMENT=Local \
   tripinsights/poi:1.0
   
 
