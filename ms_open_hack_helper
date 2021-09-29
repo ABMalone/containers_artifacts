@@ -95,3 +95,10 @@ http://localhost:8081/api/docs/trips/?url=http://localhost:8081/api/json/swagger
 >kubectl -n openhack port-forward <userjava pod> 8083:80
 >http://localhost:8083/api/documentation/user-java/swagger-ui.html (or http://localhost:8083/api/docs/user-java)
 
+web_users e6ae5f37-e913-4151-80a4-2809b7a018bf
+api_users 606a2dd8-1a9e-425f-b916-6c02d5ff972d
+
+
+
+kubectl auth can-i create deployments --namespace web
+

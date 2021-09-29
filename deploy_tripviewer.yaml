@@ -24,9 +24,9 @@ spec:
 
         env:
           - name: TRIPS_API_ENDPOINT
-            value: "http://trips"
+            value: "http://trips.api.svc.cluster.local"
           - name: USERPROFILE_API_ENDPOINT
-            value: "http://userprofile"
+            value: "http://userprofile.api.svc.cluster.local"
 ---
 apiVersion: v1
 kind: Service
