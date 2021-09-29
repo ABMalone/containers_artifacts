@@ -58,24 +58,40 @@ userprofile
 >docker build --no-cache --build-arg IMAGE_VERSION="1.0" --build-arg IMAGE_CREATE_DATE="`date -u +"%Y-%m-%dT%H:%M:%SZ"`" --build-arg IMAGE_SOURCE_REVISION="`git rev-parse HEAD`" -f Dockerfile -t "tripinsights/userprofile:1.0" .
 
 
-az login
-az acr login --name registryfgf3387
+>az login
+>az acr login --name registryfgf3387
 
-docker tag tripinsights/poi:1.0 registryfgf3387.azurecr.io/poi:1.0
-docker push registryfgf3387.azurecr.io/poi:1.0
+>docker tag tripinsights/poi:1.0 registryfgf3387.azurecr.io/poi:1.0
+>docker push registryfgf3387.azurecr.io/poi:1.0
 
-docker tag tripinsights/tripviewer:1.0 registryfgf3387.azurecr.io/tripviewer:1.0
-docker push registryfgf3387.azurecr.io/tripviewer:1.0
+>docker tag tripinsights/tripviewer:1.0 registryfgf3387.azurecr.io/tripviewer:1.0
+>docker push registryfgf3387.azurecr.io/tripviewer:1.0
 
-docker tag tripinsights/userjava:1.0 registryfgf3387.azurecr.io/userjava:1.0
-docker push registryfgf3387.azurecr.io/userjava:1.0
+>docker tag tripinsights/userjava:1.0 registryfgf3387.azurecr.io/userjava:1.0
+>docker push registryfgf3387.azurecr.io/userjava:1.0
 
-docker tag tripinsights/trips:1.0 registryfgf3387.azurecr.io/trips:1.0
-docker push registryfgf3387.azurecr.io/trips:1.0
+>docker tag tripinsights/trips:1.0 registryfgf3387.azurecr.io/trips:1.0
+>docker push registryfgf3387.azurecr.io/trips:1.0
 
-docker tag tripinsights/userprofile:1.0 registryfgf3387.azurecr.io/userprofile:1.0
-docker push registryfgf3387.azurecr.io/userprofile:1.0
+>docker tag tripinsights/userprofile:1.0 registryfgf3387.azurecr.io/userprofile:1.0
+>docker push registryfgf3387.azurecr.io/userprofile:1.0
 
 
-kubectl create ns openhack
-kubectl -n openhack apply -f deploy_poi.yaml
+
+>kubectl create ns openhack
+>kubectl -n openhack apply -f deploy_poi.yaml
+>kubectl -n openhack port-forward <poi pod> 8080:80
+>http://localhost:8080/api/docs/poi/index.html
+
+>kubectl -n openhack apply -f deploy_trips.yaml
+>kubectl -n openhack port-forward <trip pod> 8081:80
+http://localhost:8081/api/docs/trips/?url=http://localhost:8081/api/json/swagger.json
+
+>kubectl -n openhack apply -f deploy_userprofile.yaml
+>k -n openhack port-forward <userprofile pod> 8082:80
+>http://localhost:8082/api/docs/user/
+
+>kubectl -n openhack apply -f deploy_userjava.yaml
+>kubectl -n openhack port-forward <userjava pod> 8083:80
+>http://localhost:8083/
+
