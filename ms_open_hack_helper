@@ -102,3 +102,21 @@ api_users 606a2dd8-1a9e-425f-b916-6c02d5ff972d
 
 kubectl auth can-i create deployments --namespace web
 
+
+csi driver
+https://docs.microsoft.com/en-us/azure/aks/csi-secrets-store-driver#code-try-1
+Register the AKS-AzureKeyVaultSecretsProvider feature flag by using the az feature register command, as shown in the following example:
+>az feature register --namespace "Microsoft.ContainerService" --name "AKS-AzureKeyVaultSecretsProvider"
+It takes a few minutes for the status to show Registered. Verify the registration status by using the az feature list command:
+>az feature list -o table --query "[?contains(name, 'Microsoft.ContainerService/AKS-AzureKeyVaultSecretsProvider')].{Name:name,State:properties.state}"
+When ready, refresh the registration of the Microsoft.ContainerService resource provider by using the az provider register command:
+>az provider register --namespace Microsoft.ContainerService
+# Install the aks-preview extension
+az extension add --name aks-preview
+# Update the extension to make sure you have the latest version installed
+az extension update --name aks-preview
+#To upgrade an existing AKS cluster with Secrets Store CSI Driver capability
+az aks enable-addons --addons azure-keyvault-secrets-provider --name OpenHack_AKS_Team3 --resource-group teamResources
+The above will install the Secrets Store CSI Driver and the Azure Key Vault provider on your nodes. Verify completion by listing all pods with the secrets-store-csi-driver and secrets-store-provider-azure labels in the kube-system namespace, and ensure your output looks similar to the following:
+>kubectl get pods -n kube-system -l 'app in (secrets-store-csi-driver, secrets-store-provider-azure)'
+

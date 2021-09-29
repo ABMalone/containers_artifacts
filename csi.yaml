@@ -1,0 +1,24 @@
+apiVersion: secrets-store.csi.x-k8s.io/v1alpha1
+kind: SecretProviderClass
+metadata:
+  name: openhack-team3
+spec:
+  provider: azure
+  parameters:
+    keyvaultName: "openhack-team3"       # The name of the Azure Key Vault
+    useVMManagedIdentity: "true"         
+    userAssignedIdentityID: "ba5fed47-65ce-4fc8-9181-54604aee04f5" # The clientId of the addon-created managed identity
+    cloudName: ""                         # [OPTIONAL for Azure] if not provided, Azure environment will default to AzurePublicCloud 
+    objects:  |
+      array:
+        - |
+          objectName: sqluser       # In this example, 'ExampleSecret' 
+          objectAlias: SQL_USER     # [OPTIONAL] specify the filename of the object when written to disk - defaults to objectName if not provided
+          objectType: secret              # Object types: secret, key or cert
+          objectVersion: ""               # [OPTIONAL] object versions, default to latest if empty
+        - |
+          objectName: sqlpassword      # In this example, 'ExampleSecret' 
+          objectAlias: SQL_PASSWORD     # [OPTIONAL] specify the filename of the object when written to disk - defaults to objectName if not provided
+          objectType: secret              # Object types: secret, key or cert
+          objectVersion: ""               # [OPTIONAL] object versions, default to latest if empty
+    tenantId: "97d40cca-5916-4525-aee8-0d24bddd2719"               # the tenant ID containing the Azure Key Vault instance
