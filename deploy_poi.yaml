@@ -27,19 +27,19 @@ spec:
           - name: SQL_USER
             valueFrom:
               secretKeyRef:
-                name: mysecret
+                name: poisecret
                 key: SQL_USER
           - name: SQL_PASSWORD
             valueFrom:
               secretKeyRef:
-                name: mysecret
+                name: poisecret
                 key: SQL_PASSWORD
 ---
 
 apiVersion: v1
 kind: Secret
 metadata:
-  name: mysecret
+  name: poisecret
 type: Opaque
 stringData:
     SQL_USER: "sqladminfGf3387"

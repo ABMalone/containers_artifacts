@@ -88,7 +88,7 @@ userprofile
 http://localhost:8081/api/docs/trips/?url=http://localhost:8081/api/json/swagger.json
 
 >kubectl -n openhack apply -f deploy_userprofile.yaml
->k -n openhack port-forward <userprofile pod> 8082:80
+>kubectl -n openhack port-forward <userprofile pod> 8082:80
 >http://localhost:8082/api/docs/user/
 
 >kubectl -n openhack apply -f deploy_userjava.yaml
