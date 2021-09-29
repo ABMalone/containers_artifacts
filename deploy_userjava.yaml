@@ -17,8 +17,8 @@ spec:
         image: registryfgf3387.azurecr.io/userjava:1.0
         resources:
           limits:
-            memory: "128Mi"
-            cpu: "500m"
+            memory: "1Gi"
+            cpu: "1000m"
         ports:
         - containerPort: 80
 
