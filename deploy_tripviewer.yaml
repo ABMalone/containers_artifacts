@@ -33,12 +33,93 @@ kind: Service
 metadata:
   name: tripviewer
 spec:
-  type: LoadBalancer
+  # type: LoadBalancer
   selector:
     app: tripviewer
   ports:
   - port: 80
     targetPort: 80
 ---
-
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: tripviewer
+  labels:
+    name: tripviewer
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    nginx.ingress.kubernetes.io/ssl-redirect: "false"
+    nginx.ingress.kubernetes.io/use-regex: "true"
+    # nginx.ingress.kubernetes.io/rewrite-target: /$1
+spec:
+  rules:
+  - http:
+      paths:
+      - path: "/(.*)"
+        pathType: Prefix
+        backend:
+          service:
+            name: tripviewer
+            port: 
+              number: 80
+      - path: /api/poi(/|$)(.*)
+        pathType: Prefix
+        backend:
+          service:
+            name: poi-api-service
+            port:
+              number: 80
+      - path: /api/trips(/|$)(.*)
+        pathType: Prefix
+        backend:
+          service:
+            name: trips-api-service
+            port:
+              number: 80
+      - path: /api/user-java(/|$)(.*)
+        pathType: Prefix
+        backend:
+          service:
+            name: userjava-api-service
+            port:
+              number: 80
+      - path: /api/user(/|$)(.*)
+        pathType: Prefix
+        backend:
+          service:
+            name: userprofile-api-service
+            port:
+              number: 80
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: poi-api-service
+spec:
+  type: ExternalName
+  externalName: poi.api.svc.cluster.local
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: trips-api-service
+spec:
+  type: ExternalName
+  externalName: trips.api.svc.cluster.local
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: userjava-api-service
+spec:
+  type: ExternalName
+  externalName: userjava.api.svc.cluster.local
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: userprofile-api-service
+spec:
+  type: ExternalName
+  externalName: userprofile.api.svc.cluster.local
 
