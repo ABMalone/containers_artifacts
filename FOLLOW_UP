@@ -1,0 +1,15 @@
+all secrets are fine now.
+there was path mapping issue and now it is sorted.
+next task I believe is to install ingress. 
+
+which I did installed in ingress-basic namespace
+by running following 
+kubectl create ns ingress-basic
+
+NAMESPACE=ingress-basic
+helm install nginx-ingress ingress-nginx/ingress-nginx \
+    --namespace $NAMESPACE \
+    --set controller.replicaCount=2 \
+    --set controller.nodeSelector."kubernetes\.io/os"=linux \
+    --set controller.admissionWebhooks.patch.nodeSelector."kubernetes\.io/os"=linux \
+    --set defaultBackend.nodeSelector."kubernetes\.io/os"=linux 
